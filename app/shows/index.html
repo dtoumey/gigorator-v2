@@ -1,0 +1,42 @@
+<div class="main">
+  <div class="col-md-9 col-xs-11">
+    <table class="show-table">
+      <tbody>
+        <tr>
+          <th>
+            #
+          </th>
+          <th>
+            Date
+          </th>
+<!--           <th>
+            Day
+          </th> -->
+          <th>
+            Venue
+          </th>
+        </tr>
+        <tr ng-repeat="show in showsCtrl.shows">
+          <td>
+            {{ showsCtrl.shows.length - $index }}
+          </td>
+          <td>
+            <a ui-sref="shows.show({showId: show.$id})" >{{ show.date }}</a>
+<!--             <a ng-href="#/shows/{{ show.$id }}">
+              {{ show.date | dateFromTimestamp }}
+            </a> -->
+          </td>
+<!--           <td>
+            {{ show.date | dayFromTimestamp }}
+          </td> -->
+          <td>
+            {{ show.venue }}
+          </td>
+<!--           <td class="showListStatus" ng-class="status(show.date, show.pending)">
+            {{ status(show.date, show.pending) }}
+          </td> -->
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
