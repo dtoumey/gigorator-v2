@@ -10,12 +10,13 @@ angular.module('angularfireSlackApp')
     };
 
     showsCtrl.createShow = function(){
-      showsCtrl.channels.$add(showsCtrl.newShow).then(function(){
+      showsCtrl.shows.$add(showsCtrl.newShow).then(function(){
         showsCtrl.newShow = {
           date: '',
           pending: false,
           venue: ''
         };
+        $state.go('shows');
       });
     };
 

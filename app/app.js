@@ -86,6 +86,11 @@ angular
           }
         }
       })
+      .state('shows.create', {
+        url: '/create',
+        templateUrl: 'shows/create.html',
+        controller: 'ShowsCtrl as showsCtrl'
+      })
       .state('channels', {
         url: '/channels',
         controller: 'ChannelsCtrl as channelsCtrl',
