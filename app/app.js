@@ -91,6 +91,23 @@ angular
         templateUrl: 'shows/create.html',
         controller: 'ShowsCtrl as showsCtrl'
       })
+      .state('showDetail', {
+        url: '/shows/{showId}/detail',
+        templateUrl: 'shows/detail.html',
+        controller: 'ShowDetailCtrl as showDetailCtrl',
+        resolve: {
+          showDetail: function($stateParams, ShowDetail, Auth){
+            return Auth.$requireAuth().then(function(auth){
+              return ShowDetail.forShow($stateParams.showId).$loaded();
+            });
+          },
+          otherBands: function($stateParams, ShowDetail, Auth){
+            return Auth.$requireAuth().then(function(auth){
+              return ShowDetail.bandsForShow($stateParams.showId).$loaded();
+            });
+          }
+        }
+      })
       .state('channels', {
         url: '/channels',
         controller: 'ChannelsCtrl as channelsCtrl',

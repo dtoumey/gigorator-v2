@@ -1,6 +1,8 @@
 angular.module('angularfireSlackApp')
-  .controller('ShowsCtrl', function($state, shows){
+  .controller('ShowsCtrl', function($state, shows, FirebaseUrl){
     var showsCtrl = this;
+    var ref = new Firebase(FirebaseUrl+'shows');
+    var now = new Date();
 
     showsCtrl.shows = shows;
     showsCtrl.newShow = {
@@ -8,21 +10,27 @@ angular.module('angularfireSlackApp')
       pending: false,
       venue: ''
     };
+    showsCtrl.error = '';
+    showsCtrl.today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
 
     showsCtrl.createShow = function(){
-      showsCtrl.shows.$add(showsCtrl.newShow).then(function(){
-        showsCtrl.newShow = {
-          date: '',
-          pending: false,
-          venue: ''
-        };
-        $state.go('shows');
+      var date = (new Date(showsCtrl.newShow.date).valueOf() / 1000).toString(); // store date in timestamp format
+      ref.once("value", function(snapshot) {
+        var showExists = snapshot.child(date).exists();
+        if (!showExists) {
+          showsCtrl.newShow.date = date;
+          ref.child(date).setWithPriority(showsCtrl.newShow, -date).then(function(){
+            showsCtrl.newShow = {
+              date: '',
+              pending: false,
+              venue: ''
+            };
+            $state.go('shows');
+          });
+        } else {
+          showsCtrl.error = 'Show already exists.';
+        }
       });
     };
-
-    // showsCtrl.logout = function(){
-    //   Auth.$unauth();
-    //   $state.go('home');
-    // };
   });
 

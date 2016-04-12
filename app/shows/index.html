@@ -17,9 +17,9 @@
           <th>
             Date
           </th>
-<!--           <th>
+          <th>
             Day
-          </th> -->
+          </th>
           <th>
             Venue
           </th>
@@ -29,20 +29,20 @@
             {{ showsCtrl.shows.length - $index }}
           </td>
           <td>
-            <a ui-sref="shows.show({showId: show.$id})" >{{ show.date }}</a>
-<!--             <a ng-href="#/shows/{{ show.$id }}">
-              {{ show.date | dateFromTimestamp }}
-            </a> -->
+            <a id="anchor{{show.$id}}" ui-sref="showDetail({showId: show.$id})" >{{ show.date * 1000 | date:'mediumDate' }}</a>
           </td>
-<!--           <td>
-            {{ show.date | dayFromTimestamp }}
-          </td> -->
+          <td>
+            {{ show.date | date:'EEE' }}
+          </td>
           <td>
             {{ show.venue }}
           </td>
-<!--           <td class="showListStatus" ng-class="status(show.date, show.pending)">
-            {{ status(show.date, show.pending) }}
-          </td> -->
+          <td ng-show="(show.date * 1000) > showsCtrl.today && !((show.date * 1000) == showsCtrl.today)">
+            UPCOMING
+          </td>
+          <td ng-show="!((show.date * 1000) > showsCtrl.today) && (show.date * 1000) == showsCtrl.today">
+            TODAY
+          </td>
         </tr>
       </tbody>
     </table>
