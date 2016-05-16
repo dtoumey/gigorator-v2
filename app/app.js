@@ -12,7 +12,8 @@ angular
   .module('angularfireSlackApp', [
     'firebase',
     'angular-md5',
-    'ui.router'
+    'ui.router',
+    'ngTagsInput'
   ])
   .config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider
@@ -22,7 +23,7 @@ angular
         resolve: {
           requireNoAuth: function($state, Auth){
             return Auth.$requireAuth().then(function(auth){
-              $state.go('channels');
+              $state.go('shows');
             }, function(error){
               return;
             });
@@ -74,14 +75,52 @@ angular
           }
         }
       })
+      .state('bands', {
+        url: '/bands',
+        controller: 'BandsCtrl as bandsCtrl',
+        templateUrl: 'bands/index.html',
+        resolve: {
+          bands: function ($state, Auth, Bands){
+            return Auth.$requireAuth().then(function(auth){
+              return Bands.all.$loaded();
+            }, 
+            function(error){
+              $state.go('home');
+            });
+          }
+        }
+      })
+      .state('bandDetail', {
+        url: '/bands/{bandId}/detail',
+        templateUrl: 'bands/detail.html',
+        controller: 'BandDetailCtrl as bandDetailCtrl',
+        resolve: {
+          band: function($state, $stateParams, Auth, Bands){
+            return Auth.$requireAuth().then(function(auth){
+              return Bands.byId($stateParams.bandId).$loaded();
+            }, 
+            function(error){
+              $state.go('home');
+            });
+          },
+          showsPlayed: function($stateParams, Auth, Shows){
+            return Auth.$requireAuth().then(function(auth){
+              return Shows.playedWithBand($stateParams.bandId);
+            });
+          }
+        }
+      })
       .state('shows', {
         url: '/shows',
         controller: 'ShowsCtrl as showsCtrl',
         templateUrl: 'shows/index.html',
         resolve: {
-          shows: function (Shows, Auth){
+          shows: function ($state, Auth, Shows){
             return Auth.$requireAuth().then(function(auth){
-              return Shows.$loaded();
+              return Shows.all.$loaded();
+            }, 
+            function(error){
+              $state.go('home');
             });
           }
         }
@@ -96,9 +135,12 @@ angular
         templateUrl: 'shows/detail.html',
         controller: 'ShowDetailCtrl as showDetailCtrl',
         resolve: {
-          showDetail: function($stateParams, ShowDetail, Auth){
+          showDetail: function($state, $stateParams, Auth, ShowDetail){
             return Auth.$requireAuth().then(function(auth){
               return ShowDetail.forShow($stateParams.showId).$loaded();
+            }, 
+            function(error){
+              $state.go('home');
             });
           },
           otherBands: function($stateParams, ShowDetail, Auth){
