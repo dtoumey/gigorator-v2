@@ -1,10 +1,11 @@
 angular.module('angularfireSlackApp')
-  .controller('ShowsCtrl', function($state, shows, FirebaseUrl){
+  .controller('ShowsCtrl', function($state, upcomingShows, lastSevenShows, FirebaseUrl){
     var showsCtrl = this;
     var ref = new Firebase(FirebaseUrl+'shows');
     var now = new Date();
 
-    showsCtrl.shows = shows;
+    showsCtrl.upcomingShows = upcomingShows;
+    showsCtrl.lastSevenShows = lastSevenShows;
     showsCtrl.newShow = {
       date: '',
       pending: false,

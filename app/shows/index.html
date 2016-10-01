@@ -8,12 +8,10 @@
   </div>
 
   <div class="col-md-9 col-xs-11">
+    <h4>UPCOMING SHOWS</h4>
     <table class="show-table">
       <tbody>
         <tr>
-          <th>
-            #
-          </th>
           <th>
             Date
           </th>
@@ -24,10 +22,7 @@
             Venue
           </th>
         </tr>
-        <tr ng-repeat="show in showsCtrl.shows">
-          <td>
-            {{ showsCtrl.shows.length - $index }}
-          </td>
+        <tr ng-repeat="show in showsCtrl.upcomingShows">
           <td>
             <a id="anchor{{show.$id}}" ui-sref="showDetail({showId: show.$id})" >{{ show.date * 1000 | date:'mediumDate' }}</a>
           </td>
@@ -37,14 +32,33 @@
           <td>
             {{ show.venue }}
           </td>
-          <td ng-show="(show.date * 1000) > showsCtrl.today && !((show.date * 1000) == showsCtrl.today)">
-            UPCOMING
+          <td ng-show="$last && (show.date * 1000) > showsCtrl.today && !((show.date * 1000) == showsCtrl.today)">
+            NEXT SHOW
           </td>
-          <td ng-show="!((show.date * 1000) > showsCtrl.today) && (show.date * 1000) == showsCtrl.today">
+          <td ng-show="$last && !((show.date * 1000) > showsCtrl.today) && (show.date * 1000) == showsCtrl.today">
             TODAY
           </td>
         </tr>
       </tbody>
     </table>
+  </div>
+  <div class="col-md-9 col-xs-11 pastShows">
+    <h4>PAST SHOWS:</h4>
+    <table class="show-table">
+      <tbody>
+        <tr ng-repeat="show in showsCtrl.lastSevenShows">
+          <td>
+            <a id="anchor{{show.$id}}" ui-sref="showDetail({showId: show.$id})" >{{ show.date * 1000 | date:'mediumDate' }}</a>
+          </td>
+          <td>
+            {{ show.date | date:'EEE' }}
+          </td>
+          <td>
+            {{ show.venue }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="fadeDiv" />
   </div>
 </div>

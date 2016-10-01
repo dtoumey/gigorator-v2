@@ -2,12 +2,19 @@ angular.module('angularfireSlackApp')
   .factory('Shows', function($firebaseArray, FirebaseUrl){
     var ref = new Firebase(FirebaseUrl+'shows');
     var bandsRef = new Firebase(FirebaseUrl+'bands');
-    var shows = $firebaseArray(ref);
+    var now = new Date();
+    var today = (new Date(now.getFullYear(), now.getMonth(), now.getDate())).getTime() / 1000;
+    var upcoming = $firebaseArray(ref.endAt(-today));
+    console.log(today);
+    var lastSeven = $firebaseArray(ref.startAt(-(today-1)).limitToFirst(7)); // -(today - 1) makes sure if there's a show today, it doesn't repeat
 
     return {
-      all: shows,
+      upcoming: upcoming,
+      lastSeven: lastSeven,
       playedWithBand: function(bandId) {
-        return $firebaseArray(bandsRef.child(bandId).child('shows'));
+        debugger;
+        var test = $firebaseArray(bandsRef.child(bandId).child('shows'));
+        return test;
       }
       // ,
       // byBand: function(bandId) {

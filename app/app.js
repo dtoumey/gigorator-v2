@@ -115,9 +115,17 @@ angular
         controller: 'ShowsCtrl as showsCtrl',
         templateUrl: 'shows/index.html',
         resolve: {
-          shows: function ($state, Auth, Shows){
+          upcomingShows: function ($state, Auth, Shows){
             return Auth.$requireAuth().then(function(auth){
-              return Shows.all.$loaded();
+              return Shows.upcoming.$loaded();
+            }, 
+            function(error){
+              $state.go('home');
+            });
+          },
+          lastSevenShows: function ($state, Auth, Shows){
+            return Auth.$requireAuth().then(function(auth){
+              return Shows.lastSeven.$loaded();
             }, 
             function(error){
               $state.go('home');

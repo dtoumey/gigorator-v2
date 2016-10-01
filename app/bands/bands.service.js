@@ -24,11 +24,19 @@ angular.module('angularfireSlackApp')
       forPriority: function (start, end) {
         return $firebaseArray(bandsRef.startAt(start).endAt(end));
       },
-      // delete: function (band) {
-      //   return bands.$remove(band);
+      // delete: function (bandName) {
+      //   var nodeName = bandName.toLowerCase().replace(/\s/g, '').replace(/\./g, '');
+      //   nodeName = encodeURIComponent(nodeName);
+
+      //   return bandsRef.child(bandName).remove();
       // },
+      remove: function (bandName, showId) {
+        var nodeName = bandName.toLowerCase().replace(/\s/g, '').replace(/\./g, '');
+        nodeName = encodeURIComponent(nodeName);
+
+        return showsRef.child(showId).child('bands').child(nodeName).remove();
+      },
       add: function (bandName, show) {
-        debugger;
         var nodeName = bandName.toLowerCase().replace(/\s/g, '').replace(/\./g, '');
         nodeName = encodeURIComponent(nodeName);
         var bandObj = { 'name' : bandName };
@@ -40,19 +48,19 @@ angular.module('angularfireSlackApp')
         }
 
         function setShow() {
-          bandsRef.child(nodeName).child('shows').child(show.date).setWithPriority(showObj, -show.date);
+          bandsRef.child(nodeName).child('shows').child(show.date).setWithPriority(showObj, -(show.date));
           showsRef.child(show.$id).child('bands').child(nodeName).set(bandObj);
         }
 
 
         bandsRef.child(nodeName).once('value', function (snapshot) {
+          var p = Priority.startPriority(bandName);
           if (snapshot.exists()) {
-            Priority.startPriority(bandName, setShow);
+            setShow();
           } else {
-            Priority.startPriority(bandName, setBandFirstTime);
+            setBandFirstTime(p);
           }
         });
-
       }
     };
   });

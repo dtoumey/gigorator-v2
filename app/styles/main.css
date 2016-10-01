@@ -1,3 +1,7 @@
+
+.shows-radio {
+  padding: 20px;
+}
 body {
   padding: 0;
 }
@@ -15,6 +19,7 @@ body {
 
 
 .main {
+  margin: 20px;
   position:absolute;
   top:0;
   left:0;
@@ -204,4 +209,25 @@ body {
   color:#ccc;
   font-weight: normal;
   font-size:10px;
+}
+
+.pastShows {
+  height: 256px;
+  overflow: hidden;
+}
+
+.fadeDiv {
+  position:absolute;
+  bottom:0;
+  height:25%;
+  width:500px;
+  background:-webkit-linear-gradient(rgba( 255, 255, 255, 0), rgba(255, 255, 255, 1) ); /* For Safari */
+  background:linear-gradient( rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) );
+}
+
+.show-table th, .show-table td {
+  padding: 5px;
+}
+.show-table {
+  margin-bottom: 5px;
 }
