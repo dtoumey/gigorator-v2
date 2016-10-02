@@ -1,13 +1,13 @@
 <div class="main">
-  <div>
-    <ui-view></ui-view>
-  </div>
 
-  <div class="channel create">
-    <a ui-sref="shows.create">+ create show</a>
-  </div>
+    <div class="col-md-9 col-xs-11">
+    <div>
+      <ui-view></ui-view>
+    </div>
 
-  <div class="col-md-9 col-xs-11">
+    <div class="channel create">
+      <a ui-sref="shows.create">+ create show</a>
+    </div>
     <h4>UPCOMING SHOWS</h4>
     <table class="show-table">
       <tbody>
@@ -30,7 +30,7 @@
             {{ show.date | date:'EEE' }}
           </td>
           <td>
-            {{ show.venue }}
+            {{ show.venue.trunc(15) }}
           </td>
           <td ng-show="$last && (show.date * 1000) > showsCtrl.today && !((show.date * 1000) == showsCtrl.today)">
             NEXT SHOW
@@ -54,11 +54,14 @@
             {{ show.date | date:'EEE' }}
           </td>
           <td>
-            {{ show.venue }}
+            {{ show.venue.trunc(15) }}
           </td>
         </tr>
       </tbody>
     </table>
     <div class="fadeDiv" />
+  </div>
+  <div class="col-md-9 col-xs-11 main-bottom">
+    <a ui-sref="archive()">View archive..</a>
   </div>
 </div>

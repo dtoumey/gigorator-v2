@@ -1,48 +1,51 @@
 <div class="main">
-  <div class="header">
-    <h3>{{ showDetailCtrl.status }}</h3>
-  </div>
-  <table>
-    <tbody>
-
-      <tr>
-        <th>Date</th>
-        <th>Day</th>
-        <th>Venue</th>
-        <th ng-show="showDetailCtrl.otherBands.length > 0">Other bands</th>
-      </tr>
-
-      <tr>
-        <td>{{ showDetailCtrl.showDetail.date * 1000 | date:'mediumDate' }}</td>
-        <td>{{ showDetailCtrl.showDetail.date * 1000 | date:'EEE' }}</td>
-        <td>{{ showDetailCtrl.showDetail.venue }}</td>
-        <td ng-repeat="band in showDetailCtrl.otherBands" ng-show="$first">{{ band.name }}</td>
-        <td ng-repeat="band in showDetailCtrl.otherBands" ng-show="$first"><span class="deleteBand" ng-click="showDetailCtrl.deleteBand(band.name)">&#10006;</span></td>
-      </tr>
-
-      <tr ng-repeat="band in showDetailCtrl.otherBands" ng-show="!$first"> <!-- Skip first since we have it above -->
-        <td></td>
-        <td></td>
-        <td></td>
-        <td>{{ band.name }}</td>
-        <td><span class="deleteBand" ng-click="showDetailCtrl.deleteBand(band.name)">&#10006;</span></td>
-      </tr>
-
-    </tbody>
-  </table>
-  <div class="shows addBand">
-    <div ng-show="showDetailCtrl.error">
-      <span>{{ showDetailCtrl.error }}</span>
+  <div class="col-md-9 col-xs-11">
+    <div class="header">
+      <h3>{{ showDetailCtrl.status }}</h3>
     </div>
-    <form ng-submit="showDetailCtrl.addBand()">
-      <div class="form-group">
-        <span style="display:inline">
-        <tags-input ng-model="tags" add-on-paste="true" replace-spaces-with-dashes="false" placeholder="Add a band">
-          <auto-complete source="showDetailCtrl.loadBands($query)"></auto-complete>
-        </tags-input>
-        <input type="submit" class="btn btn-default" value="Add Band(s)">
-        </span>
+    <table class="show-table">
+      <tbody>
+
+        <tr>
+          <th>Date</th>
+          <th>Day</th>
+          <th>Venue</th>
+        </tr>
+
+        <tr>
+          <td>{{ showDetailCtrl.showDetail.date * 1000 | date:'mediumDate' }}</td>
+          <td>{{ showDetailCtrl.showDetail.date * 1000 | date:'EEE' }}</td>
+          <td>{{ showDetailCtrl.showDetail.venue }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="show-table">
+      <tbody>
+
+        <tr>
+          <th>Other bands</th>
+        </tr>
+
+        <tr ng-repeat="band in showDetailCtrl.otherBands">
+          <td>{{ band.name }}</td>
+          <td><span class="deleteBand" ng-click="showDetailCtrl.deleteBand(band.name)">&#10006;</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="shows addBand">
+      <div ng-show="showDetailCtrl.error">
+        <span>{{ showDetailCtrl.error }}</span>
       </div>
-    </form>
+      <form ng-submit="showDetailCtrl.addBand()">
+        <div class="form-group">
+          <span style="display:inline">
+          <tags-input ng-model="tags" add-on-paste="true" replace-spaces-with-dashes="false" placeholder="Add a band or two.....">
+            <auto-complete source="showDetailCtrl.loadBands($query)"></auto-complete>
+          </tags-input>
+          <input type="submit" class="btn btn-default" value="Add Band(s)">
+          </span>
+        </div>
+      </form>
+    </div>
   </div>
 </div>

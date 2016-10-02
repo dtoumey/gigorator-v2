@@ -133,6 +133,21 @@ angular
           }
         }
       })
+      .state('archive', {
+        url: '/shows/archive',
+        controller: 'ShowsArchiveCtrl as showsArchiveCtrl',
+        templateUrl: 'shows/archive.html',
+        resolve: {
+          archive: function ($state, Auth, Shows){
+            return Auth.$requireAuth().then(function(auth){
+              return Shows.archive.$loaded();
+            }, 
+            function(error){
+              $state.go('home');
+            });
+          }
+        }
+      })
       .state('shows.create', {
         url: '/create',
         templateUrl: 'shows/create.html',
@@ -203,3 +218,16 @@ angular
     $urlRouterProvider.otherwise('/');
   })
   .constant('FirebaseUrl', 'https://the-gigorator.firebaseio.com/');
+/**
+ * extends string prototype object to get a string with a number of characters from a string.
+ *
+ * @type {Function|*}
+ */
+String.prototype.trunc = String.prototype.trunc ||
+function(n){
+
+    // this will return a substring and 
+    // if its larger than 'n' then truncate and append '...' to the string and return it.
+    // if its less than 'n' then return the 'string'
+    return this.length>n ? this.substr(0,n-1)+'...' : this.toString();
+};

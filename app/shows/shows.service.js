@@ -7,10 +7,12 @@ angular.module('angularfireSlackApp')
     var upcoming = $firebaseArray(ref.endAt(-today));
     console.log(today);
     var lastSeven = $firebaseArray(ref.startAt(-(today-1)).limitToFirst(7)); // -(today - 1) makes sure if there's a show today, it doesn't repeat
+    var archive = $firebaseArray(ref.startAt(-(today-1))); // -(today - 1) makes sure if there's a show today, it doesn't repeat
 
     return {
       upcoming: upcoming,
       lastSeven: lastSeven,
+      archive: archive,
       playedWithBand: function(bandId) {
         debugger;
         var test = $firebaseArray(bandsRef.child(bandId).child('shows'));
