@@ -1,0 +1,23 @@
+<div class="main">
+  <div class="header">
+    <h3>{{ bandDetailCtrl.band.name }}</h3>
+    <h4>Past shows:</h4>
+  </div>
+  <table>
+    <tbody>
+
+      <tr>
+        <th>Date</th>
+        <th>Day</th>
+        <th>Venue</th>
+      </tr>
+
+      <tr ng-repeat="show in bandDetailCtrl.band.shows">
+        <td>{{ show.date * 1000 | date:'mediumDate' }}</td>
+        <td>{{ show.date * 1000 | date:'EEE' }}</td>
+        <td>{{ show.venue }}</td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>

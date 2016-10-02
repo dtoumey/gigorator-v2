@@ -1,0 +1,29 @@
+<div class="header">
+  <h3>Create a show</h3>
+</div>
+
+
+<div ng-show="showsCtrl.error">
+  <span>{{ showsCtrl.error }}</span>
+</div>
+<form ng-submit="showsCtrl.createShow()">
+  <div class="input-group">
+  	<input type="text" class="form-control" placeholder="Date" ng-model="showsCtrl.newShow.date">
+  </div>
+  <div class="input-group">
+  	<input type="text" class="form-control" placeholder="Venue Name" ng-model="showsCtrl.newShow.venue">
+  </div>
+  <div class="radio">
+    <label>
+      <input type="radio"  ng-model="showsCtrl.newShow.pending" ng-value="false">
+      Confirmed
+    </label>
+  </div>
+  <div class="radio">
+    <label>
+      <input type="radio" ng-model="showsCtrl.newShow.pending" ng-value="true">
+      Pending
+    </label>
+  </div>
+  <input type="submit" class="btn btn-default" value="Create Show">
+</form>
